@@ -46,5 +46,6 @@ setup(
             'Intended Audience :: Information Technology',
             'Topic :: Office/Business :: Financial',
             'Topic :: Office/Business :: Financial :: Point-Of-Sale',
-    ]
+    ],
+    py_modules=['pyauthorize', 'pyauthorize_test']
 )
