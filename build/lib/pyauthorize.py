@@ -119,7 +119,7 @@ class PaymentProcessor(object):
         
         self.transaction_data['x_type'] = 'CREDIT'
         self.transaction_data['x_trans_id'] = self._transaction()
-        self.transaction_data['x_card_num'] = self._card_num()
+        self.transaction_data['x_card_num'] = self._card_num_or_last_four()
         self.transaction_data['x_amount'] = self._amount()
         
     def process_void_or_credit(self):
@@ -216,6 +216,17 @@ class PaymentProcessor(object):
             raise ValueError, 'Invalid card_num format. %s' % self.card_num
         else:
             return str(self.card_num)
+    
+    def _card_num_or_last_four(self):
+        """Is this the full card_num or just the last four?"""
+        if not self.card_num:
+            raise ValueError, 'card_num is required'
+        elif len(self.card_num) == 4:
+            card_num = self._card_num_last_four()
+        else:
+            card_num = self._card_num()
+            
+        return card_num
     
     def _card_code(self):
         """Validate the card code and return it if successful."""

@@ -222,6 +222,51 @@ class PyAuthorize_card_numTest(PyAuthorizeTest):
         tools.assert_raises(ValueError, self.pp._card_num)
     
 
+class PyAuthorize_card_num_or_last_fourTest(PyAuthorizeTest):
+    """Tests pertaining to _card_num_or_last_four."""
+    
+    def test__card_num_or_last_four(self):
+        """_card_num_or_last_four recognizes a valid card number."""
+        
+        card_nums = ['4111111111111111', '511111111111111', '1111']
+        for card_num in card_nums:
+            self.pp.card_num = card_num
+            response = self.pp._card_num_or_last_four()
+            tools.assert_equal(card_num, response)
+    
+    @tools.raises(ValueError)
+    def test__card_num_or_last_four_fails_when_uninitialized(self):
+        """_card_num_or_last_four fails if card_num isn't set."""
+        
+        self.pp.card_num = None
+        self.pp._card_num_or_last_four()
+    
+    @tools.raises(ValueError)
+    def test__card_num_or_last_four_fails_with_invalid_characters(self):
+        """_card_num_or_last_four fails if it encounters a non-number."""
+        
+        self.pp.card_num = '41111111111176%8'
+        self.pp._card_num_or_last_four()
+    
+    def test__card_num_or_last_fourm_fails_with_invalid_length(self):
+        """_card_num_or_last_four fails if it is not a valid length.
+        
+        Valid lengths are 4, 13, 14, 15, or 16 characters."""
+        
+        # Check all lengths 1 to 20
+        self.pp.card_num = '4'
+        
+        while len(self.pp.card_num) <= 20:
+            if len(self.pp.card_num) in [4, 13, 14, 15, 16]:
+                response = self.pp._card_num_or_last_four()
+                tools.assert_equal(self.pp.card_num, response)
+            else:
+                tools.assert_raises(ValueError,
+                        self.pp._card_num_or_last_four)
+                
+            self.pp.card_num = '%s2' % self.pp.card_num
+            
+
 class PyAuthorize_card_codeTest(PyAuthorizeTest):
     """Tests pertaining to _card_code."""
     

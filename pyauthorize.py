@@ -119,7 +119,7 @@ class PaymentProcessor(object):
         
         self.transaction_data['x_type'] = 'CREDIT'
         self.transaction_data['x_trans_id'] = self._transaction()
-        self.transaction_data['x_card_num'] = self._card_num()
+        self.transaction_data['x_card_num'] = self._card_num_or_last_four()
         self.transaction_data['x_amount'] = self._amount()
         
     def process_void_or_credit(self):
