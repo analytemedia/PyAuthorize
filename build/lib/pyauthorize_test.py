@@ -29,6 +29,7 @@ __author__ = 'jordan.bouvier@analytemedia.com (Jordan Bouvier)'
 from nose.tools import with_setup
 from nose import tools
 import datetime
+import os
 import random
 import unittest
 
@@ -41,8 +42,8 @@ class PyAuthorizeTest(unittest.TestCase):
     def setUp(self):
         """Setup fixture."""
         
-        x_login = 'your login'
-        x_tran_key = 'your transaction key'
+        x_login = os.environ.get('x_login', 'your login')
+        x_tran_key = os.environ.get('x_tran_key', 'your transaction key')
         self.pp = pyauthorize.PaymentProcessor(x_login, x_tran_key)
         self.pp.x_post_url = 'https://test.authorize.net/gateway/transact.dll'
         

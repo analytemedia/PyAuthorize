@@ -32,6 +32,12 @@ from urllib import urlencode
 import re
 import urllib2
 
+try:
+    from google.appengine.api import urlfetch
+    APPENGINE = True
+except:
+    APPENGINE = False
+
 
 
 class PaymentProcessor(object):
@@ -50,6 +56,7 @@ class PaymentProcessor(object):
         # Configuration
         self.post_url = 'https://secure.authorize.net/gateway/transact.dll'
         self.x_test_request = x_test_request
+        self.urllib = urllib2
         self.is_avs_required = False
         self.is_ccv_required = False
         self.configuration = {
@@ -150,10 +157,16 @@ class PaymentProcessor(object):
                       urlencode(self.transaction_data)])
         encoded_post_data = '&'.join(post_list)
         
-        request = urllib2.Request(url=self.post_url,
-                data=encoded_post_data)
-        response = urllib2.urlopen(request)
-        response_string = response.read()
+        if APPENGINE:
+            response = urlfetch.fetch(url=self.post_url, method=urlfetch.POST,
+                    payload=encoded_post_data, deadline=10)
+            response_string = response.content
+        else:
+            request = self.urllib.Request(url=self.post_url,
+                    data=encoded_post_data)
+            response = self.urllib.urlopen(request)
+            response_string = response.read()
+        
         response_list = response_string.split(
                 self.configuration['x_delim_char'])
                 
