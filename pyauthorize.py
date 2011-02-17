@@ -50,6 +50,7 @@ class PaymentProcessor(object):
         # Configuration
         self.post_url = 'https://secure.authorize.net/gateway/transact.dll'
         self.x_test_request = x_test_request
+        self.urllib = urllib2
         self.is_avs_required = False
         self.is_ccv_required = False
         self.configuration = {
@@ -150,9 +151,9 @@ class PaymentProcessor(object):
                       urlencode(self.transaction_data)])
         encoded_post_data = '&'.join(post_list)
         
-        request = urllib2.Request(url=self.post_url,
+        request = self.urllib.Request(url=self.post_url,
                 data=encoded_post_data)
-        response = urllib2.urlopen(request)
+        response = self.urllib.urlopen(request)
         response_string = response.read()
         response_list = response_string.split(
                 self.configuration['x_delim_char'])
