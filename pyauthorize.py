@@ -282,6 +282,11 @@ class PaymentProcessor(object):
         if self.is_avs_required:
             self.transaction_data['x_address'] = self._address()
             self.transaction_data['x_zip'] = self._zip()
+        else:
+            if self.address:
+                self.transaction_data['x_address'] = self._address()
+            if self.zip:
+                self.transaction_data['x_zip'] = self._zip()
         
         if self.is_ccv_required:
             self.transaction_data['x_card_code'] = self._card_code()
