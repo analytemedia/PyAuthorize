@@ -197,7 +197,7 @@ class PaymentProcessor(object):
         """Validate the address and return it if successful."""
         if not self.address:
             raise ValueError, 'address is required.'
-        elif not re.search('^[\w\d,. ]{1,60}$', self.address):
+        elif not re.search("^[\w\d'/&-,. ]{1,60}$", self.address):
             raise ValueError, 'Invalid address format. %s' % self.address
         else:
             return self.address
