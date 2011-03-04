@@ -90,7 +90,7 @@ class PyAuthorize_addressTest(PyAuthorizeTest):
     def test__address(self):
         """_address recognizes a valid address."""
         
-        address = '351 W Hubbard St. Suite 500'
+        address = "351 W Hubbard St. Suite 500 '/&#-,."
         self.pp.address = address
         response = self.pp._address()
         tools.assert_equal(address, response)

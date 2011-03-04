@@ -30,7 +30,7 @@ from distutils.core import setup
 
 setup(
     name='PyAuthorize',
-    version='1.1.2',
+    version='1.1.3',
     author='Jordan Bouvier',
     author_email='jordan.bouvier@analytemedia.com',
     url='http://open-source.analytemedia.com/pyauthorize',
