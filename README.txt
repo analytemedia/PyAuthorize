@@ -1,3 +1,7 @@
+Future development of this app will be at:
+
+https://github.com/analytehealth/PyAuthorize
+
 Copyright (C) 2010 Analyte Media
 
 Permission is hereby granted, free of charge, to any person
